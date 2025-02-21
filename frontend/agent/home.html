@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil</title>
+</head>
+<style>
+    /* Importation de la police Google */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.header span {
+  font-weight: 700;
+  color: #2d89ef;
+}
+
+.main {
+  margin-top: 2rem;
+}
+
+.option {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  background-color: #2d89ef;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+.btn:hover {
+  background-color: #2372c4;
+}
+
+.admin-btn {
+  background-color: #ff6f61;
+}
+
+.admin-btn:hover {
+  background-color: #e05a4f;
+}
+
+.admin-only {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .btn {
+    font-size: 0.9rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+</style>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Bienvenue</h1>
+    </header>
+    <main class="main">
+      <div class="option">
+        <button class="btn" onclick="redirectToSolde()">Consulter solde</button>
+      </div>
+      <div class="option">
+        <button class="btn" onclick="redirectToNotifications()">Consulter notification</button>
+      </div>
+      <div class="option admin-only">
+        <button class="btn admin-btn" onclick="redirectToPublish()">Publier une notification</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Masquer l'option admin si le pseudo n'est pas "admin"
+    let notificateur = localStorage.getItem('notificateur')
+    
+    if (notificateur !== "true") {
+      document.querySelector(".admin-only").style.display = "none";
+    }
+
+    function redirectToSolde() {
+      const idAgent = localStorage.getItem('idAgent'); 
+      window.location.href = `solde.html?idAgent=${idAgent}`;
+    }
+
+    function redirectToNotifications() {
+      const idAgent = localStorage.getItem('idAgent');
+      window.location.href = `notification.html?idAgent=${idAgent}`;
+    }
+
+    function redirectToPublish() {
+      const idAgent = "123"; // Remplacez par l'ID de l'agent si nécessaire
+      window.location.href = `publier-notification.html?idAgent=${idAgent}`;
+    }
+
+  </script>
+</body>
+</html>

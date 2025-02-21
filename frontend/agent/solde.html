@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solde de l'Agent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="solde.css">
+</head>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #74ebd5, #acb6e5);
+        color: #333;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 400px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #2d89ef;
+        margin-bottom: 1rem;
+    }
+
+    #solde-container {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        background-color: #2d89ef;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #2372c4;
+    }
+
+</style>
+<body>
+  <div class="container">
+    <h1>Votre Solde</h1>
+    <div id="solde-container">
+      <p>Chargement...</p>
+    </div>
+    <button class="btn" onclick="goBack()">Retour</button>
+  </div>
+
+  <script>
+    // Récupérer l'ID de l'agent à partir des paramètres de l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idAgent = urlParams.get("idAgent");
+
+    // Appeler l'API pour récupérer le solde
+    async function fetchSolde() {
+      try {
+        const response = await fetch(`http://localhost:3000/get-solde/${idAgent}`);
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération du solde.");
+        }
+        const data = await response.json();
+        document.getElementById("solde-container").innerHTML = `
+          <p>Solde actuel : <strong>${data.solde} CDF</strong></p>
+        `;
+      } catch (error) {
+        document.getElementById("solde-container").innerHTML = `
+          <p style="color: red;">Erreur : ${error.message}</p>
+        `;
+      }
+    }
+
+    // Charger les données
+    fetchSolde();
+
+    // Fonction pour retourner à la page précédente
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>

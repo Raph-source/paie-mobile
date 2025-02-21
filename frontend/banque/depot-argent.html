@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dépot argent</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.cinetpay.com/seamless/main.js"></script>
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #74ebd5, #acb6e5);
+        color: #333;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 600px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #2d89ef;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
+
+    label {
+        font-size: 1rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #2d89ef;
+        outline: none;
+    }
+
+    .btn {
+        background-color: #2d89ef;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #2372c4;
+    }
+
+    .back-btn {
+        margin-top: 1rem;
+        background-color: #888;
+    }
+
+    .back-btn:hover {
+        background-color: #666;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Insérer le montant</h1>
+        <form id="formulaire">
+            <div class="form-group">
+            <label for="montant">Montant</label>
+            <input id="montant" required></input>
+            </div>
+            <input type="submit" value="Valider">
+        </form>
+        <button class="btn back-btn" onclick="goBack()">Retour</button>
+    </div>
+</body>
+<script>
+    document.getElementById("formulaire").addEventListener('submit', function(event){
+        event.preventDefault()
+
+        const montant = document.getElementById("montant").value
+
+        checkout(montant)
+
+    })
+
+    function checkout(montant) {
+        CinetPay.setConfig({
+            apikey: '7841257636780ea2c09d655.52135367',//   YOUR APIKEY
+            site_id: '105885317',//YOUR_SITE_ID
+            mode: 'PRODUCTION'
+        });
+        CinetPay.getCheckout({
+            transaction_id: Math.floor(Math.random() * 100000000).toString(), // YOUR TRANSACTION ID
+            amount: montant,
+            currency: 'CDF',
+            channels: 'MOBILE_MONEY',
+            description: 'Test de paiement',   
+        });
+        CinetPay.waitResponse(function(data) {
+            if (data.status == "REFUSED") {
+                if (alert("Votre paiement a échoué")) {
+                    window.location.reload();
+                }
+            } else if (data.status == "ACCEPTED") {
+                let donnee = new FormData()
+                donnee.append('montant', montant)
+
+                fetch('http://localhost:3000/banque/inserer-montant', {
+                    method: 'POST',
+                    body: donnee
+                })
+                .then(response => response.json())
+                .then(data => {          
+                    console.log(data);
+                    
+                });
+                if (alert("Votre paiement a été effectué avec succès")) {
+                    window.location.reload();
+                }
+            }
+        });
+        CinetPay.onError(function(data) {
+            console.log("erreur" + data);
+        });
+    }
+    // Fonction pour retourner à la page précédente
+    function goBack() {
+      window.history.back();
+    }
+</script>
+</html>
