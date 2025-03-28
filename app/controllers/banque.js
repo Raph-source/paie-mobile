@@ -82,7 +82,7 @@ class Banque{
         }
     }
 
-    // Fonction pour déposer de l'argent sur votre compte CinetPay
+    //déposer de l'argent le compte CinetPay
     static async depositMoneyToCinetPay(amount) {
         var axios = require('axios');
         var data = JSON.stringify({
@@ -163,8 +163,8 @@ class Banque{
                 port: 587,
                 secure: false,
                 auth:{
-                    user:'raphilunga00@gmail.com',
-                    pass: 'qqlqnhsocgqrkptg'
+                    user:'Ebank01200@gmail.com',
+                    pass: 'urapapwuftxjpavn'
                 },
                 connectionTimeout: 5000
             })
@@ -187,7 +187,10 @@ class Banque{
                 }))
                 
                 //Envoyer les emails
-                await Promise.all(dixEmail.map(email => transporter.sendMail(email)))
+                await Promise.all(dixEmail.map(email => {
+                    transporter.sendMail(email)
+                    Agent_M.setAccuseRec(email.to, false)
+                }))
 
                 //Attendre 1 seconde pour éviter les spams
                 await new Promise(resolve => setTimeout(resolve, 1000))

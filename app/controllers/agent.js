@@ -116,6 +116,49 @@ class Agent{
         }
     }
 
+    static async setAccuseRec(req, res){        
+        let {idAgent} = req.params
+
+        try{
+            if(typeof idAgent !== 'undefined'){
+                idAgent = Number(idAgent)
+
+                const email = await Agent_M.getEmail(idAgent)
+
+                await Agent_M.setAccuseRec(email, true)
+
+                res.status(200).json({
+                    response: "success"
+                })
+            }
+            else{
+                res.status(403).json({
+                    reponse: "interdit"
+                })
+            }
+        }
+        catch(erreur){
+            res.status(500).json({
+                reponse: "erreur serveur"
+            })
+        }
+    }
+
+    static async getAllAgent(res){
+        try{
+            const agents = await Agent_M.getAllAgent()
+
+            res.status(200).json({
+                response: agents
+            })
+        }
+        catch(erreur){
+            res.status(500).json({
+                reponse: "erreur serveur"
+            })
+        }
+    }
+
     static async getDateActuelle(){
         //la date actuelle
         const date = new Date()

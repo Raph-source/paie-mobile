@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Paiement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaf5e0;
+        }
+        .btn-print {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-print:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rapport de Paiement des Agents</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom Complet</th>
+                <th>Matricule</th>
+                <th>Salaire</th>
+                <th>Solde</th>
+                <th>Statut de Paiement</th>
+            </tr>
+        </thead>
+        <tbody id="rapportTableBody">
+            <!-- Les lignes seront insérées dynamiquement ici -->
+        </tbody>
+    </table>
+
+    <button class="btn-print" onclick="window.print()">Imprimer le Rapport</button>
+    <script>
+        // Appeler l'API pour la répartition des salaires
+        async function rapport() {
+        try {
+            const response = await fetch(`http://localhost:3000/banque/accuser-reception`);
+            const data = await response.json()
+            afficherRapport(data.response)
+
+        } catch (error) {
+            console.log(error.message);
+            
+        }
+        }
+
+        // Fonction pour afficher les rapports dans le tableau
+        function afficherRapport(agents) {
+            const tableBody = document.getElementById('rapportTableBody');
+
+            agents.forEach(agent => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${agent.id}</td>
+                    <td>${agent.nom} ${agent.postNom} ${agent.prenom}</td>
+                    <td>${agent.matricule}</td>
+                    <td>${agent.salaire} FC</td>
+                    <td>${agent.solde} FC</td>
+                    <td>${agent.solde >= agent.salaire ? 'Paiement Complété' : 'Paiement Incomplet'}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        rapport()
+    </script>
+</body>
+</html>

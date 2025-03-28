@@ -6,6 +6,7 @@ const { log } = require("console")
 
 //inclusion du contrôlleur
 const Banque = require('../app/controllers/banque')
+const Agent = require("../app/controllers/agent")
 
 //pour le stockage des upload
 const stockage = multer.diskStorage({
@@ -45,6 +46,7 @@ banque.post('/inserer-montant', upload.none(), (req, res) =>{ Banque.setMontant(
 banque.get('/repartition', (req, res) =>{ Banque.repartition(res)})
 banque.get('/notification', (req, res) =>{ Banque.notifierAgent(res)})
 banque.get('/paiement', (req, res) =>{ Banque.lancerPaiement(res)})
+banque.get('/accuser-reception', (req, res) =>{ Agent.getAllAgent(res)})
 
 
 module.exports = banque;

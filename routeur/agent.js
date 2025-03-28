@@ -32,4 +32,7 @@ agent.post('/ajouter-notification', upload.none(), (req, res) =>{ Agent.setNotif
 agent.get('/get-solde/:idAgent', upload.none(), (req, res) =>{ Agent.getSolde(req, res)})
 agent.get('/get-notification/:idAgent', upload.none(), (req, res) =>{ Agent.getNotification(req, res)})
 
+//PUT
+agent.put('/accuse-reception/:idAgent', upload.none(), (req, res) =>{ Agent.setAccuseRec(req, res)})
+
 module.exports = agent;

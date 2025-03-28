@@ -10,25 +10,29 @@
 
 <style>
     body {
-        font-family: 'Roboto', sans-serif;
-        background: linear-gradient(135deg, #74ebd5, #acb6e5);
-        color: #333;
-        margin: 0;
+        font-family: 'Montserrat', sans-serif;
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         height: 100vh;
+        margin: 0;
+        background: linear-gradient(to right, #141E30, #243B55);
+        color: #e0e0e0;
     }
 
     .container {
-        text-align: center;
-        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background: #2c3e50;
         padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        width: 90%;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        width: 80%;
         max-width: 600px;
-    }
+        height: 70vh;
+        }
 
     h1 {
         font-size: 2rem;
@@ -96,7 +100,7 @@
         <form id="formulaire">
             <div class="form-group">
             <label for="montant">Montant</label>
-            <input id="montant" required></input>
+            <input type="number" id="montant" required placeholder="Entrer le montant en FC"></input>
             </div>
             <input type="submit" value="Valider">
         </form>

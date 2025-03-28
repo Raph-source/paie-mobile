@@ -29,7 +29,7 @@ class Agent{
         return false
     }
     
-    //retourne les emails des agents
+    //retourne l'id d'un agent
     static async getId(num){
         const trouver = await prisma.agent.findFirst({
             where: {
@@ -41,6 +41,20 @@ class Agent{
         })
 
         return trouver.id
+    }
+
+    //retourne l'id d'un agent
+    static async getEmail(id){
+        const trouver = await prisma.agent.findFirst({
+            where: {
+                id: id
+            },
+            select: {
+                email: true
+            }
+        })
+
+        return trouver.email
     }
 
     // retourne le solde d'un agent
@@ -114,6 +128,25 @@ class Agent{
         })
 
         return trouver
+    }
+
+    //changer l'accusé de recéption
+    static async setAccuseRec(email, valeur){
+        await prisma.agent.update({
+            where: {
+                email: email
+            },
+            data: {
+                accuseRec: valeur,
+            }
+        })
+    }
+
+    //retourne tout les agents
+    static async getAllAgent(){
+        const agents = await prisma.agent.findMany()
+
+        return agents
     }
 }
 

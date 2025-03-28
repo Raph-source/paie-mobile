@@ -6,84 +6,91 @@
   <title>Accueil</title>
 </head>
 <style>
-    /* Importation de la police Google */
+/* Importation de la police Google */
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #74ebd5, #acb6e5);
-  color: #333;
-  margin: 0;
+  font-family: 'Montserrat', sans-serif;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
+  margin: 0;
+  background: linear-gradient(to right, #141E30, #243B55);
+  color: #e0e0e0;
 }
 
 .container {
-  text-align: center;
-  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: #2c3e50;
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  max-width: 600px;
+  height: 70vh;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.5rem;
+  color: #f39c12;
 }
 
 .header span {
   font-weight: 700;
-  color: #2d89ef;
+  color: #e74c3c;
 }
 
 .main {
-  margin-top: 2rem;
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .option {
   margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
-  background-color: #2d89ef;
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 5px;
+  background-color: transparent;
+  color: #f39c12;
+  border: 2px solid #f39c12;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
-  max-width: 300px;
+  width: 80%;
+  max-width: 200px;
 }
 
 .btn:hover {
-  background-color: #2372c4;
+  background-color: #f39c12;
+  color: #fff;
 }
 
 .admin-btn {
-  background-color: #ff6f61;
+  background-color: transparent;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
 }
 
 .admin-btn:hover {
-  background-color: #e05a4f;
+  background-color: #e74c3c;
+  color: #fff;
 }
 
 .admin-only {
-  margin-top: 1.5rem;
-}
-
-@media (max-width: 600px) {
-  .btn {
-    font-size: 0.9rem;
-  }
-
-  .header h1 {
-    font-size: 1.5rem;
-  }
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 </style>
@@ -104,7 +111,10 @@ body {
         <button class="btn" onclick="fairePaiement()">Faire le payement</button>
       </div>
       <div class="option">
-        <button class="btn" onclick="faireNotifier()">Notifier les agents</button>
+        <button class="btn" onclick="faireNotifier()">Envoyer notification</button>
+      </div>
+      <div class="option">
+        <button class="btn" onclick="versAccuseReception()">Voir les accusés de reception</button>
       </div>
     </main>
   </div>
@@ -112,6 +122,10 @@ body {
   <script>
     function redirectToDepotMontant() {
       window.location.href = `depot-argent.html`;
+    }
+
+    function versAccuseReception() {
+      window.location.href = `accuser-reception.html`;
     }
 
     // Appeler l'API pour la répartition des salaires

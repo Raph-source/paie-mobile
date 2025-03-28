@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accusés de Réception</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: rgba(2, 3, 30, 0.837)
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaf5e0;
+        }
+        .received {
+            color: green;
+            font-weight: bold;
+        }
+        .not-received {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accusés de Réception des Agents</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Matricule</th>
+                <th>Nom</th>
+                <th>Postnom</th>
+                <th>Prénom</th>
+                <th>Accusé de Réception</th>
+            </tr>
+        </thead>
+        <tbody id="agentsTableBody">
+            <!-- Les lignes seront insérées dynamiquement ici -->
+        </tbody>
+    </table>
+
+    <script>
+        // Appeler l'API pour la répartition des salaires
+        async function afficherAccuserRec() {
+        try {
+            const response = await fetch(`http://localhost:3000/banque/accuser-reception`);
+            const data = await response.json()
+                        afficherAgents(data.response)
+
+        } catch (error) {
+            console.log(error.message);
+            
+        }
+        }
+
+        // Fonction pour afficher les agents dans le tableau
+        function afficherAgents(agents) {
+            const tableBody = document.getElementById('agentsTableBody');
+
+            agents.forEach(agent => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${agent.id}</td>
+                    <td>${agent.matricule}</td>
+                    <td>${agent.nom}</td>
+                    <td>${agent.postNom}</td>
+                    <td>${agent.prenom}</td>
+                    <td class="${agent.accuseRec ? 'received' : 'not-received'}">
+                        ${agent.accuseRec ? 'Bien reçu' : 'Non reçu'}
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        afficherAccuserRec()
+    </script>
+</body>
+</html>
